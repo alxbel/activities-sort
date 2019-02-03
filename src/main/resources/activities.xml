@@ -1,0 +1,56 @@
+<AC_ACTIVITIES>
+    <entry name="AC_TIMEREPORT_577499183">
+      <entry name="AC_ORDER_ACTIVITY_ACTUAL_WORK">
+        <valstr>3</valstr>
+      </entry>
+      <entry name="AC_ORDER_ACTIVITY_ID">
+        <valstr>LABOR AC</valstr>
+      </entry>
+      <entry name="AC_ORDER_ACTIVITY_START_DATE">
+        <valstr>2019-01-25</valstr>
+      </entry>
+      <entry name="AC_ORDER_ACTIVITY_WORK_CENTER">
+        <valstr>Manish Singh</valstr>
+      </entry>
+      <entry name="AC_ORDER_ACTIVITY_UNIT_OF_WORK">
+        <valstr>HR</valstr>
+      </entry>
+      <valstr/>
+    </entry>
+    <entry name="AC_TIMEREPORT_963290448">
+      <entry name="AC_ORDER_ACTIVITY_ACTUAL_WORK">
+        <valstr>1</valstr>
+      </entry>
+      <entry name="AC_ORDER_ACTIVITY_ID">
+        <valstr>LABOR AC</valstr>
+      </entry>
+      <entry name="AC_ORDER_ACTIVITY_START_DATE">
+        <valstr>2019-01-25</valstr>
+      </entry>
+      <entry name="AC_ORDER_ACTIVITY_WORK_CENTER">
+        <valstr>Manish Singh</valstr>
+      </entry>
+      <entry name="AC_ORDER_ACTIVITY_UNIT_OF_WORK">
+        <valstr>HR</valstr>
+      </entry>
+      <valstr/>
+    </entry>
+    <entry name="AC_TIMEREPORT_1618911538">
+      <entry name="AC_ORDER_ACTIVITY_ACTUAL_WORK">
+        <valstr>2</valstr>
+      </entry>
+      <entry name="AC_ORDER_ACTIVITY_ID">
+        <valstr>TRAVEL TIME AC</valstr>
+      </entry>
+      <entry name="AC_ORDER_ACTIVITY_START_DATE">
+        <valstr>2019-01-25</valstr>
+      </entry>
+      <entry name="AC_ORDER_ACTIVITY_WORK_CENTER">
+        <valstr>Manish Singh</valstr>
+      </entry>
+      <entry name="AC_ORDER_ACTIVITY_UNIT_OF_WORK">
+        <valstr>HR</valstr>
+      </entry>
+      <valstr/>
+    </entry>
+</AC_ACTIVITIES>
