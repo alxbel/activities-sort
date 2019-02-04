@@ -6,9 +6,6 @@ import com.merann.actsort.service.Sorter;
 import com.merann.actsort.service.impl.ActivityResponseToStringConverter;
 import com.merann.actsort.service.impl.ActivitySorter;
 import jdk.nashorn.internal.ir.annotations.Ignore;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +18,6 @@ public class ActivitiesSortTest {
     private final Sorter<Map<String, Map<String, List<Activity>>>, List<Activity>> activitySorter = new ActivitySorter();
     private final Converter<Map<String, Map<String, List<Activity>>>, String> responseToStringConverter = new ActivityResponseToStringConverter();
 
-    @BeforeAll
     static void init() {
         activities = TestHelper.createActivities();
     }

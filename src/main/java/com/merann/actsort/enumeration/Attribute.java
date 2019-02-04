@@ -1,0 +1,12 @@
+package com.merann.actsort.enumeration;
+
+public enum Attribute {
+    AC_ACTIVITIES,
+    AC_TIMEREPORT,
+
+    AC_ORDER_ACTIVITY_ID,
+    AC_ORDER_ACTIVITY_START_DATE,
+    AC_ORDER_ACTIVITY_WORK_CENTER,
+    AC_ORDER_ACTIVITY_ACTUAL_WORK,
+    AC_ORDER_ACTIVITY_UNIT_OF_WORK
+}

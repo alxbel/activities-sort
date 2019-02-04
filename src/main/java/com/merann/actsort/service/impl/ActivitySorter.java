@@ -3,7 +3,6 @@ package com.merann.actsort.service.impl;
 import com.merann.actsort.model.Activity;
 import com.merann.actsort.service.Sorter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -24,7 +23,7 @@ public class ActivitySorter implements Sorter<Map<String, Map<String, List<Activ
 
         for (Activity activity : unsortedActivities) {
             // attribute 'start date' and 'work center', on which activities are being sorted:
-            final String startDate = activity.getAttribute(Activity.ACTIVITY_START_DATE_ATTR);
+            /*final String startDate = activity.getAttribute(Activity.ACTIVITY_START_DATE_ATTR);
             final String workCenter = activity.getAttribute(Activity.ACTIVITY_WORK_CENTER_ATTR);
 
             // map of activities with a key = startDate:
@@ -51,7 +50,7 @@ public class ActivitySorter implements Sorter<Map<String, Map<String, List<Activ
                 actsList.add(activity);
                 actsMap = response.get(startDate);
                 actsMap.put(workCenter, actsList);
-            }
+            }*/
         }
 
         return response;
