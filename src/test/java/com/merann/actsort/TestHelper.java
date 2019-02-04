@@ -1,6 +1,8 @@
 package com.merann.actsort;
 
+import com.merann.actsort.enumeration.Attribute;
 import com.merann.actsort.model.Activity;
+import com.merann.actsort.model.MAFAttributeHierarchyLevel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,41 @@ class TestHelper {
         return activities;
     }
 
+    static MAFAttributeHierarchyLevel createActivityId() {
+        MAFAttributeHierarchyLevel activityId = new MAFAttributeHierarchyLevel();
+        activityId.name = Attribute.AC_ORDER_ACTIVITY_ID.name();
+        activityId.value = createIdValue();
+        return activityId;
+    }
+
+    static MAFAttributeHierarchyLevel createActivityStartDate() {
+        MAFAttributeHierarchyLevel activityId = new MAFAttributeHierarchyLevel();
+        activityId.name = Attribute.AC_ORDER_ACTIVITY_START_DATE.name();
+        activityId.value = createStartDateValue();
+        return activityId;
+    }
+
+    static MAFAttributeHierarchyLevel createActivityWorkCenter() {
+        MAFAttributeHierarchyLevel activityId = new MAFAttributeHierarchyLevel();
+        activityId.name = Attribute.AC_ORDER_ACTIVITY_WORK_CENTER.name();
+        activityId.value = createWorkCenterValue();
+        return activityId;
+    }
+
+    static MAFAttributeHierarchyLevel createActivityUnitOfWork() {
+        MAFAttributeHierarchyLevel activityId = new MAFAttributeHierarchyLevel();
+        activityId.name = Attribute.AC_ORDER_ACTIVITY_UNIT_OF_WORK.name();
+        activityId.value = createUnitOfWorkValue();
+        return activityId;
+    }
+
+    static MAFAttributeHierarchyLevel createActivityActualWork() {
+        MAFAttributeHierarchyLevel activityId = new MAFAttributeHierarchyLevel();
+        activityId.name = Attribute.AC_ORDER_ACTIVITY_ACTUAL_WORK.name();
+        activityId.value = String.valueOf(rndRange(1, 10));
+        return activityId;
+    }
+
     private static List<Activity> createRandomActs(final int count) {
         List<Activity> activities = new ArrayList<>();
         for (int i = 0; i < count; i++) {
@@ -42,50 +79,50 @@ class TestHelper {
 
     private static List<Activity> createActsWithSameDate(final int count) {
         List<Activity> activities = new ArrayList<>();
-        final String sameDate = createAcDate();
+        final String sameDate = createStartDateValue();
         for (int i = 0; i < count; i++) {
-            activities.add(new Activity(createAcId(), sameDate, createAcWorkCenter(), String.valueOf(range(1, 10)), createUnitOfWork()));
+            activities.add(new Activity(createIdValue(), sameDate, createWorkCenterValue(), String.valueOf(rndRange(1, 10)), createUnitOfWorkValue()));
         }
         return activities;
     }
 
     private static List<Activity> createActsWithSameDateAndWC(final int count) {
         List<Activity> activities = new ArrayList<>();
-        final String sameDate = createAcDate();
-        final String sameWorkCenter = createAcWorkCenter();
+        final String sameDate = createStartDateValue();
+        final String sameWorkCenter = createWorkCenterValue();
         for (int i = 0; i < count; i++) {
-            activities.add(new Activity(createAcId(), sameDate, sameWorkCenter, String.valueOf(range(1, 10)), createUnitOfWork()));
+            activities.add(new Activity(createIdValue(), sameDate, sameWorkCenter, String.valueOf(rndRange(1, 10)), createUnitOfWorkValue()));
         }
         return activities;
     }
 
     private static Activity createRandomAct() {
-        return new Activity(createAcId(), createAcDate(), createAcWorkCenter(), String.valueOf(range(1, 10)), createUnitOfWork());
+        return new Activity(createIdValue(), createStartDateValue(), createWorkCenterValue(), String.valueOf(rndRange(1, 10)), createUnitOfWorkValue());
     }
 
-    private static String createAcId() {
-        return ACT_IDS[range(0, ACT_IDS.length - 1)];
+    private static String createIdValue() {
+        return ACT_IDS[rndRange(0, ACT_IDS.length - 1)];
     }
 
-    private static String createAcDate() {
-        final int year = range(2015, 2019);
-        final int month = range(1, 12);
-        final int day = range(1, 30);
+    private static String createStartDateValue() {
+        final int year = rndRange(2015, 2019);
+        final int month = rndRange(1, 12);
+        final int day = rndRange(1, 30);
 
         return String.format("%d-%02d-%02d", year, month, day);
     }
 
-    private static String createAcWorkCenter() {
-        int wordCount = range(1, 3);
+    private static String createWorkCenterValue() {
+        int wordCount = rndRange(1, 3);
         if (wordCount == 3) {
-            wordCount = range(1, 3);
+            wordCount = rndRange(1, 3);
         }
 
         StringBuilder workCenter = new StringBuilder();
         for (int i = 0; i < wordCount; i++) {
-            String word = getRandomWorkCenter();
+            String word = getRandomWorkCenterValue();
             while (workCenter.toString().contains(word)) {
-                word = getRandomWorkCenter();
+                word = getRandomWorkCenterValue();
             }
             workCenter.append(word);
             if (i != wordCount - 1) {
@@ -95,15 +132,15 @@ class TestHelper {
         return workCenter.toString();
     }
 
-    private static String createUnitOfWork() {
-        return ACT_UNITS_OF_WORK[range(0, ACT_UNITS_OF_WORK.length - 1)];
+    private static String createUnitOfWorkValue() {
+        return ACT_UNITS_OF_WORK[rndRange(0, ACT_UNITS_OF_WORK.length - 1)];
     }
 
-    private static String getRandomWorkCenter() {
-        return ACT_WORK_CENTER_WORDS[range(0, ACT_WORK_CENTER_WORDS.length - 1)];
+    private static String getRandomWorkCenterValue() {
+        return ACT_WORK_CENTER_WORDS[rndRange(0, ACT_WORK_CENTER_WORDS.length - 1)];
     }
 
-    private static int range(int min, int max) {
+    static int rndRange(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 }
