@@ -25,14 +25,14 @@ public class TimeReportCreator {
         printWriter.close();
     }
 
-    public String asString(List<MAFAttributeHierarchy> attributeList) {
+    public String asString(List<MAFAttributeHierarchy> attributes) {
         final StringBuilder report = new StringBuilder();
         report.append("<table border=\"3\">\n");
 
-        for (MAFAttributeHierarchy att : attributeList) {
-            if (AC_ACTIVITIES.name().equals(att.getGroup())) {
+        for (MAFAttributeHierarchy attribute : attributes) {
+            if (AC_ACTIVITIES.name().equals(attribute.getGroup())) {
                 final Map<String, Map<String, List<Properties>>> timeReport = new TreeMap<>();
-                for (MAFAttributeHierarchyLevel attributeHierarchyLevel : att.getLevels()) {
+                for (MAFAttributeHierarchyLevel attributeHierarchyLevel : attribute.getLevels()) {
                     if (attributeHierarchyLevel.name.startsWith(AC_TIMEREPORT.name())) {
                         final Properties activity = new Properties();
                         for (MAFAttributeHierarchyLevel activityLevel : attributeHierarchyLevel.getLevels()) {
@@ -50,30 +50,27 @@ public class TimeReportCreator {
                         }
 
                         // map of activities with a key = startDate:
-                        Map<String, List<Properties>> actsMap = timeReport.get(activity.getProperty(AC_ORDER_ACTIVITY_START_DATE.name()));
+                        Map<String, List<Properties>> activitiesMap = timeReport.get(activity.getProperty(AC_ORDER_ACTIVITY_START_DATE.name()));
 
                         // reference to the list of activities from actsMap:
-                        List<Properties> actsList;
+                        List<Properties> activities;
 
                         // if map of activities (with current startDate) in the response IS NOT empty,
                         // then add current activity to this map:
-                        if (actsMap != null) {
-                            actsList = actsMap.get(activity.getProperty(AC_ORDER_ACTIVITY_WORK_CENTER.name()));
-                            if (actsList == null) {
-                                actsList = new ArrayList<>();
-                                actsMap.put(activity.getProperty(AC_ORDER_ACTIVITY_WORK_CENTER.name()), actsList);
+                        if (activitiesMap != null) {
+                            if ((activities = activitiesMap.get(activity.getProperty(AC_ORDER_ACTIVITY_WORK_CENTER.name()))) == null) {
+                                activities = new ArrayList<>();
+                                activitiesMap.put(activity.getProperty(AC_ORDER_ACTIVITY_WORK_CENTER.name()), activities);
                             }
-                            actsList.add(activity);
                         } else {
                             // if map of activities (with current startDate) in the response IS empty, then init new
                             // map (based on current startDate) in the response and add current activity to it:
                             timeReport.put(activity.getProperty(AC_ORDER_ACTIVITY_START_DATE.name()), new TreeMap<>());
-                            actsList = new ArrayList<>();
-                            actsList.add(activity);
-                            actsMap = timeReport.get(activity.getProperty(AC_ORDER_ACTIVITY_START_DATE.name()));
-                            actsMap.put(activity.getProperty(AC_ORDER_ACTIVITY_WORK_CENTER.name()), actsList);
+                            activities = new ArrayList<>();
+                            activitiesMap = timeReport.get(activity.getProperty(AC_ORDER_ACTIVITY_START_DATE.name()));
+                            activitiesMap.put(activity.getProperty(AC_ORDER_ACTIVITY_WORK_CENTER.name()), activities);
                         }
-                        //}
+                        activities.add(activity);
                     }
                 }
 
