@@ -26,14 +26,17 @@ public class TimeReportCreator {
     }
 
     public String asString(List<MAFAttributeHierarchy> attributes) {
-        final StringBuilder report = new StringBuilder();
-        report.append("<table border=\"3\">\n");
+        final StringBuilder reportsAsString = new StringBuilder();
+        reportsAsString.append("<table border=\"3\">\n");
 
         for (MAFAttributeHierarchy attribute : attributes) {
             if (AC_ACTIVITIES.name().equals(attribute.getGroup())) {
-                final Map<String, Map<String, List<Properties>>> timeReport = new TreeMap<>();
+                final Map<String, Map<String, List<Properties>>> timeReports = new TreeMap<>();
+
+                // go through all structures to find AC_TIMEREPORT and add it to timeReports
                 for (MAFAttributeHierarchyLevel attributeHierarchyLevel : attribute.getLevels()) {
                     if (attributeHierarchyLevel.name.startsWith(AC_TIMEREPORT.name())) {
+                        // parse activity fields:
                         final Properties activity = new Properties();
                         for (MAFAttributeHierarchyLevel activityLevel : attributeHierarchyLevel.getLevels()) {
 
@@ -48,14 +51,15 @@ public class TimeReportCreator {
                                     break;
                             }
                         }
+                        // ^ here we have activity with all fields set
 
-                        // map of activities with a key = startDate:
-                        Map<String, List<Properties>> activitiesMap = timeReport.get(activity.getProperty(AC_ORDER_ACTIVITY_START_DATE.name()));
+                        // map of activities with a key = startDate of the activity:
+                        Map<String, List<Properties>> activitiesMap = timeReports.get(activity.getProperty(AC_ORDER_ACTIVITY_START_DATE.name()));
 
                         // reference to the list of activities from actsMap:
                         List<Properties> activities;
 
-                        // if map of activities (with current startDate) in the response IS NOT empty,
+                        // if map of activities (with current startDate) in timeReports IS NOT empty,
                         // then add current activity to this map:
                         if (activitiesMap != null) {
                             if ((activities = activitiesMap.get(activity.getProperty(AC_ORDER_ACTIVITY_WORK_CENTER.name()))) == null) {
@@ -63,11 +67,11 @@ public class TimeReportCreator {
                                 activitiesMap.put(activity.getProperty(AC_ORDER_ACTIVITY_WORK_CENTER.name()), activities);
                             }
                         } else {
-                            // if map of activities (with current startDate) in the response IS empty, then init new
-                            // map (based on current startDate) in the response and add current activity to it:
-                            timeReport.put(activity.getProperty(AC_ORDER_ACTIVITY_START_DATE.name()), new TreeMap<>());
+                            // if map of activities (with current startDate) in timeReports IS empty, then init new
+                            // map (based on current startDate) in timeReports and add current activity to it:
+                            timeReports.put(activity.getProperty(AC_ORDER_ACTIVITY_START_DATE.name()), new TreeMap<>());
                             activities = new ArrayList<>();
-                            activitiesMap = timeReport.get(activity.getProperty(AC_ORDER_ACTIVITY_START_DATE.name()));
+                            activitiesMap = timeReports.get(activity.getProperty(AC_ORDER_ACTIVITY_START_DATE.name()));
                             activitiesMap.put(activity.getProperty(AC_ORDER_ACTIVITY_WORK_CENTER.name()), activities);
                         }
                         activities.add(activity);
@@ -75,12 +79,12 @@ public class TimeReportCreator {
                 }
 
                 // go through each startDate:
-                for (Map.Entry<String, Map<String, List<Properties>>> startDateGroup : timeReport.entrySet()) {
+                for (Map.Entry<String, Map<String, List<Properties>>> startDateGroup : timeReports.entrySet()) {
                     // go through each workCenter for current startDate
                     for (Map.Entry<String, List<Properties>> workCenterGroup : startDateGroup.getValue().entrySet()) {
                         // add each activity (with current startDate and workCenter) to string result
                         for (Properties activity : workCenterGroup.getValue()) {
-                            report
+                            reportsAsString
                                     .append              ("<tr>\n")
                                     .append              ("\t<td>\n")
                                     .append(String.format("\t\t<div%s>\n", DIV_CLASS))
@@ -114,8 +118,8 @@ public class TimeReportCreator {
             }
         }
 
-        report.append("</table>");
+        reportsAsString.append("</table>");
 
-        return report.toString();
+        return reportsAsString.toString();
     }
 }

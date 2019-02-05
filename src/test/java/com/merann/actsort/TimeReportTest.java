@@ -45,7 +45,7 @@ public class TimeReportTest {
 
         TimeReportCreator timeReportCreator = new TimeReportCreator();
         List<MAFAttributeHierarchy> hierarchy = new ArrayList<MAFAttributeHierarchy>(){{add(activities);}};
-        timeReportCreator.createHtml(hierarchy, "/tmp/report" +
+        timeReportCreator.createHtml(hierarchy, "target/report" +
                 DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()) +
                 ".html");
     }
